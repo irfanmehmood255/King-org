@@ -1,0 +1,591 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user account and onboarding progress record for Arena Chat.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated Firebase UID of the user."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address entered or linked to the account."
+        },
+        "country": {
+          "type": "string",
+          "description": "Selected country or region."
+        },
+        "termsAccepted": {
+          "type": "boolean",
+          "description": "Whether the user accepted Terms of Service and Privacy Policy."
+        },
+        "emailVerified": {
+          "type": "boolean",
+          "description": "Whether the user completed the 6-digit email verification step."
+        },
+        "humanVerified": {
+          "type": "boolean",
+          "description": "Whether the user completed human verification."
+        },
+        "humanVerificationMethod": {
+          "type": "string",
+          "enum": ["none", "face_scan", "fingerprint_scan"],
+          "description": "Method used for human verification."
+        },
+        "username": {
+          "type": "string",
+          "description": "Chosen unique username (3-20 chars, alphanumeric and underscores) or empty while pending."
+        },
+        "onboardingStage": {
+          "type": "string",
+          "enum": ["registered", "email_verified", "human_verified", "username_set", "completed"],
+          "description": "Resumable onboarding progress stage."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of creation (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "email",
+        "country",
+        "termsAccepted",
+        "emailVerified",
+        "humanVerified",
+        "humanVerificationMethod",
+        "username",
+        "onboardingStage",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UsernameRegistry": {
+      "title": "UsernameRegistry",
+      "description": "Global unique username reservation indexed by lowercase username.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner Firebase UID."
+        },
+        "username": {
+          "type": "string",
+          "description": "Lowercase normalized username matching document ID."
+        },
+        "displayUsername": {
+          "type": "string",
+          "description": "Case-preserved username (3-20 chars, letters, numbers, underscores)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of reservation (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "username",
+        "displayUsername",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ConversationItem": {
+      "title": "ConversationItem",
+      "description": "Main dashboard conversation, group, channel, or community summary item.",
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "type": "string",
+          "description": "Unique conversation ID matching the document ID."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Authenticated user UID who owns this dashboard conversation view."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the contact, group, channel, or community."
+        },
+        "handleOrArenaId": {
+          "type": "string",
+          "description": "Username handle and Arena ID badge."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["personal", "group", "channel", "community"],
+          "description": "Type of conversation entity."
+        },
+        "lastMessagePreview": {
+          "type": "string",
+          "description": "Preview text of the last message or draft."
+        },
+        "lastMessageTimeLabel": {
+          "type": "string",
+          "description": "Formatted timestamp label of the last message."
+        },
+        "unreadCount": {
+          "type": "integer",
+          "description": "Count of unread messages."
+        },
+        "isOnline": {
+          "type": "boolean",
+          "description": "Whether the contact or group is currently active/online."
+        },
+        "isTyping": {
+          "type": "boolean",
+          "description": "Whether a participant is currently typing."
+        },
+        "deliveryStatus": {
+          "type": "string",
+          "enum": ["sent", "delivered", "read", "draft"],
+          "description": "Delivery receipt status of the last message."
+        },
+        "isMuted": {
+          "type": "boolean",
+          "description": "Whether notifications are muted for this chat."
+        },
+        "isPinned": {
+          "type": "boolean",
+          "description": "Whether this conversation is pinned to the top."
+        },
+        "isFavorite": {
+          "type": "boolean",
+          "description": "Whether this conversation is marked as favorite."
+        },
+        "isArchived": {
+          "type": "boolean",
+          "description": "Whether this conversation is archived."
+        },
+        "isVerified": {
+          "type": "boolean",
+          "description": "Whether this profile, group, or channel is verified."
+        },
+        "draftText": {
+          "type": "string",
+          "description": "Unsent draft text if any."
+        },
+        "memberCount": {
+          "type": "integer",
+          "description": "Number of participants or subscribers."
+        },
+        "avatarPreset": {
+          "type": "integer",
+          "description": "Visual avatar preset index."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of creation (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "conversationId",
+        "ownerId",
+        "displayName",
+        "handleOrArenaId",
+        "category",
+        "lastMessagePreview",
+        "lastMessageTimeLabel",
+        "unreadCount",
+        "isOnline",
+        "isTyping",
+        "deliveryStatus",
+        "isMuted",
+        "isPinned",
+        "isFavorite",
+        "isArchived",
+        "isVerified",
+        "draftText",
+        "memberCount",
+        "avatarPreset",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Persistent chat message item synchronized across sessions for a conversation.",
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": "Unique message ID matching the document ID."
+        },
+        "conversationId": {
+          "type": "string",
+          "description": "Parent conversation ID."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Authenticated user UID who owns this message history."
+        },
+        "senderName": {
+          "type": "string",
+          "description": "Display name of the message sender."
+        },
+        "isFromMe": {
+          "type": "boolean",
+          "description": "Whether the message was sent by the current user."
+        },
+        "text": {
+          "type": "string",
+          "description": "Message text content or caption."
+        },
+        "timeLabel": {
+          "type": "string",
+          "description": "Formatted timestamp string displayed inside the message bubble."
+        },
+        "deliveryStatus": {
+          "type": "string",
+          "enum": ["sent", "delivered", "read"],
+          "description": "Delivery receipt state of the message."
+        },
+        "messageType": {
+          "type": "string",
+          "enum": ["TEXT", "VOICE_NOTE", "IMAGE", "DOCUMENT", "LOCATION", "POLL", "CONTACT_CARD"],
+          "description": "Content type of the message."
+        },
+        "isStarred": {
+          "type": "boolean",
+          "description": "Whether the message is starred."
+        },
+        "isForwarded": {
+          "type": "boolean",
+          "description": "Whether the message was forwarded."
+        },
+        "voiceDurationSeconds": {
+          "type": "integer",
+          "description": "Duration in seconds for voice note messages."
+        },
+        "sequenceOrder": {
+          "type": "integer",
+          "description": "Monotonic ordering value for chronological display."
+        },
+        "replyToMessageId": {
+          "type": "string",
+          "description": "Optional quoted message ID."
+        },
+        "replyToSenderName": {
+          "type": "string",
+          "description": "Optional quoted message sender name."
+        },
+        "replyToPreview": {
+          "type": "string",
+          "description": "Optional quoted message preview text."
+        },
+        "reactionEmoji": {
+          "type": "string",
+          "description": "Optional reaction emoji attached to this message."
+        },
+        "mediaUri": {
+          "type": "string",
+          "description": "Optional media URI for image attachments."
+        },
+        "documentTitle": {
+          "type": "string",
+          "description": "Optional document file name."
+        },
+        "documentMeta": {
+          "type": "string",
+          "description": "Optional document size and page metadata."
+        },
+        "locationTitle": {
+          "type": "string",
+          "description": "Optional location name."
+        },
+        "locationSubtitle": {
+          "type": "string",
+          "description": "Optional location coordinates or subtitle."
+        },
+        "pollQuestion": {
+          "type": "string",
+          "description": "Optional poll question."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of message creation (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last message update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "messageId",
+        "conversationId",
+        "ownerId",
+        "senderName",
+        "isFromMe",
+        "text",
+        "timeLabel",
+        "deliveryStatus",
+        "messageType",
+        "isStarred",
+        "isForwarded",
+        "voiceDurationSeconds",
+        "sequenceOrder",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "StoryItem": {
+      "title": "StoryItem",
+      "description": "Status story item displayed in the Main Dashboard Stories carousel.",
+      "type": "object",
+      "properties": {
+        "storyId": {
+          "type": "string",
+          "description": "Unique story ID matching document ID."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Authenticated user UID."
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Display name of the story author."
+        },
+        "authorUsername": {
+          "type": "string",
+          "description": "Username handle of the story author."
+        },
+        "caption": {
+          "type": "string",
+          "description": "Story status text or caption."
+        },
+        "timestampLabel": {
+          "type": "string",
+          "description": "Relative time label."
+        },
+        "isOwnStory": {
+          "type": "boolean",
+          "description": "Whether this is the current user's own status."
+        },
+        "hasUnseen": {
+          "type": "boolean",
+          "description": "Whether this story has unseen updates."
+        },
+        "privacyLevel": {
+          "type": "string",
+          "enum": ["all_contacts", "close_friends", "selected_only"],
+          "description": "Story visibility privacy setting."
+        },
+        "accentPreset": {
+          "type": "integer",
+          "description": "Color/gradient preset index."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of creation (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "storyId",
+        "ownerId",
+        "authorName",
+        "authorUsername",
+        "caption",
+        "timestampLabel",
+        "isOwnStory",
+        "hasUnseen",
+        "privacyLevel",
+        "accentPreset",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ArenaNotification": {
+      "title": "ArenaNotification",
+      "description": "Notification center alert item for messages, calls, mentions, communities, channels, and security.",
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string",
+          "description": "Unique notification ID matching document ID."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Authenticated user UID."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["message", "call", "mention", "community", "channel", "security"],
+          "description": "Category of notification."
+        },
+        "title": {
+          "type": "string",
+          "description": "Notification title."
+        },
+        "body": {
+          "type": "string",
+          "description": "Notification detail text."
+        },
+        "timeLabel": {
+          "type": "string",
+          "description": "Formatted timestamp."
+        },
+        "isRead": {
+          "type": "boolean",
+          "description": "Whether the notification has been marked as read."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of creation (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "notificationId",
+        "ownerId",
+        "type",
+        "title",
+        "body",
+        "timeLabel",
+        "isRead",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ArenaUserSettings": {
+      "title": "ArenaUserSettings",
+      "description": "User presence, privacy, security, and appearance preferences.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user UID."
+        },
+        "presenceStatus": {
+          "type": "string",
+          "enum": ["online", "away", "dnd", "invisible"],
+          "description": "Real-time user presence status."
+        },
+        "storyPrivacy": {
+          "type": "string",
+          "enum": ["all_contacts", "close_friends", "selected_only"],
+          "description": "Default story privacy setting."
+        },
+        "e2eeStrictMode": {
+          "type": "boolean",
+          "description": "Whether strict end-to-end encryption verification is enabled."
+        },
+        "readReceiptsEnabled": {
+          "type": "boolean",
+          "description": "Whether read receipts are sent."
+        },
+        "typingIndicatorsEnabled": {
+          "type": "boolean",
+          "description": "Whether typing indicators are shared."
+        },
+        "notificationsEnabled": {
+          "type": "boolean",
+          "description": "Whether push/in-app alerts are enabled."
+        },
+        "themeMode": {
+          "type": "string",
+          "enum": ["cream_emerald", "emerald_night", "system"],
+          "description": "Dashboard visual theme preference."
+        },
+        "languageCode": {
+          "type": "string",
+          "description": "Preferred application language."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "presenceStatus",
+        "storyPrivacy",
+        "e2eeStrictMode",
+        "readReceiptsEnabled",
+        "typingIndicatorsEnabled",
+        "notificationsEnabled",
+        "themeMode",
+        "languageCode",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "User profile and resumable onboarding status isolated per userId."
+    },
+    "/usernames/{usernameId}": {
+      "schema": {
+        "$ref": "#/entities/UsernameRegistry"
+      },
+      "description": "Unique username registry where document ID is the lowercase username."
+    },
+    "/conversations/{conversationId}": {
+      "schema": {
+        "$ref": "#/entities/ConversationItem"
+      },
+      "description": "Dashboard conversations, groups, channels, and communities scoped per ownerId."
+    },
+    "/messages/{messageId}": {
+      "schema": {
+        "$ref": "#/entities/ChatMessage"
+      },
+      "description": "Persistent chat messages synchronized across sessions and scoped per ownerId and conversationId."
+    },
+    "/stories/{storyId}": {
+      "schema": {
+        "$ref": "#/entities/StoryItem"
+      },
+      "description": "Status stories scoped per ownerId."
+    },
+    "/notifications/{notificationId}": {
+      "schema": {
+        "$ref": "#/entities/ArenaNotification"
+      },
+      "description": "Notification center items scoped per ownerId."
+    },
+    "/user_settings/{userId}": {
+      "schema": {
+        "$ref": "#/entities/ArenaUserSettings"
+      },
+      "description": "User presence, privacy, E2EE security, and dashboard settings."
+    }
+  }
+}

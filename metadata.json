@@ -1,0 +1,6 @@
+{
+  "name": "Arena Chat",
+  "description": "Global messaging and calling platform with verified onboarding and real-time connections",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
